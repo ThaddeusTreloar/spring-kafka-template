@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cat etc/hosts >> /etc/hosts
+cat dev/etc/hosts >> /etc/hosts

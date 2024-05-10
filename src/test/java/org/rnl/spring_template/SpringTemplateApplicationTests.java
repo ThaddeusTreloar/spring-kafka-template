@@ -11,5 +11,4 @@ class SpringTemplateApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

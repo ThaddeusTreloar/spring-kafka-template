@@ -31,6 +31,7 @@ public class Config {
     public static String SPRING_KAFKA_SCHEMA_REGISTRY_URL_ENV = "SPRING_KAFKA_SCHEMA_REGISTRY_URL";
     public static String SPRING_KAFKA_SCHEMA_USER_ENV = "SPRING_KAFKA_SCHEMA_REGISTRY_USER";
     public static String SPRING_KAFKA_SCHEMA_PASS_ENV = "SPRING_KAFKA_SCHEMA_REGISTRY_PASS";
+    public static String SPRING_KAFKA_SECURITY_PROTOCOL_ENV = "SPRING_KAFKA_SECURITY_PROTOCOL";
 
     @Autowired
     private Environment environment;
@@ -38,24 +39,29 @@ public class Config {
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     public KafkaStreamsConfiguration kStreamsConfigs(KafkaEnv kafkaEnvConfig) {
         Map<String, Object> props = new HashMap<>();
-        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "StreamProcessingApplication");
- 
-        props.put(StreamsConfig.SECURITY_PROTOCOL_CONFIG, "SASL_SSL");
-        props.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
-    
+         
         if (kafkaEnvConfig.isNull()) {
             throw new MissingVarException(kafkaEnvConfig.getNullVar());
         }
 
-        var sasl_jaas_config = new StringBuilder()
-            .append("org.apache.kafka.common.security.plain.PlainLoginModule required username='")
-            .append(kafkaEnvConfig.getApiKey())
-            .append("' password='")
-            .append(kafkaEnvConfig.getApiSecret())
-            .append("';")
-            .toString();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "StreamProcessingApplication");
+ 
+        props.put(StreamsConfig.SECURITY_PROTOCOL_CONFIG, kafkaEnvConfig.getSecurityProtocol());
 
-        props.put(SaslConfigs.SASL_JAAS_CONFIG, sasl_jaas_config);
+        if (kafkaEnvConfig.getSecurityProtocol().equals("SASL_PLAIN")) {
+            props.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
+    
+            var sasl_jaas_config = new StringBuilder()
+                .append("org.apache.kafka.common.security.plain.PlainLoginModule required username='")
+                .append(kafkaEnvConfig.getApiKey())
+                .append("' password='")
+                .append(kafkaEnvConfig.getApiSecret())
+                .append("';")
+                .toString();
+    
+            props.put(SaslConfigs.SASL_JAAS_CONFIG, sasl_jaas_config);
+
+        }
 
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaEnvConfig.getBootstrapServers());
 
@@ -89,6 +95,7 @@ public class Config {
             .schemaRegistryUrl(environment.getProperty(SPRING_KAFKA_SCHEMA_REGISTRY_URL_ENV))
             .schemaRegistryUser(environment.getProperty(SPRING_KAFKA_SCHEMA_USER_ENV))
             .schemaRegistryPass(environment.getProperty(SPRING_KAFKA_SCHEMA_PASS_ENV))
+            .securityProtocol(environment.getProperty(SPRING_KAFKA_SECURITY_PROTOCOL_ENV))
             .build();
 
         return config;
