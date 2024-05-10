@@ -1,13 +1,13 @@
-package org.rnl.dms_translate;
+package org.rnl.spring_template;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DmsTranslateApplication {
+public class SpringTemplateApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DmsTranslateApplication.class, args);
+		SpringApplication.run(SpringTemplateApplication.class, args);
 	}
 
 }

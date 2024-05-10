@@ -1,4 +1,4 @@
-package org.rnl.dms_translate.error;
+package org.rnl.spring_template.error;
 
 public class MissingVarException extends RuntimeException {
     public MissingVarException(String name) {

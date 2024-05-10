@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.rnl</groupId>
-	<artifactId>dms_translate</artifactId>
+	<artifactId>spring-template</artifactId>
 	<version>0.0.1</version>
-	<name>dms_translate</name>
+	<name>spring-template</name>
 	<description>Translates DMS json events into schema registry compatible avro messages</description>
 	<properties>
 		<java.version>17</java.version>

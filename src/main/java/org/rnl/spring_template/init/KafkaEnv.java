@@ -1,4 +1,4 @@
-package org.rnl.dms_translate.init;
+package org.rnl.spring_template.init;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +34,10 @@ public class KafkaEnv {
             return "SPRING_KAFKA_BOOTSTRAP_SERVERS";
         } else if (this.getSchemaRegistryUrl() == null) {
             return "SPRING_KAFKA_SCHEMA_REGISTRY_URL";
+        } else if (this.getSchemaRegistryUser() == null) {
+            return "SPRING_KAFKA_SCHEMA_REGISTRY_USER";
+        } else if (this.getSchemaRegistryPass() == null) {
+            return "SPRING_KAFKA_SCHEMA_REGISTRY_PASS";
         } else {
             return "";
         }

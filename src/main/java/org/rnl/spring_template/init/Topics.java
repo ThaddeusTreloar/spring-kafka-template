@@ -1,4 +1,4 @@
-package org.rnl.dms_translate.init;
+package org.rnl.spring_template.init;
 
 import lombok.AllArgsConstructor;
 

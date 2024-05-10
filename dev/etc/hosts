@@ -1,0 +1,7 @@
+127.0.0.1 broker
+127.0.0.1 schema-registry
+127.0.0.1 connect
+127.0.0.1 control-center
+127.0.0.1 ksqldb-server
+127.0.0.1 ksql-datagen
+127.0.0.1 rest-proxy
