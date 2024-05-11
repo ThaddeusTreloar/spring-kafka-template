@@ -27,10 +27,11 @@ import lombok.extern.java.Log;
 public class Config {
     public static String SPRING_KAFKA_API_KEY_ENV = "SPRING_KAFKA_API_KEY";
     public static String SPRING_KAFKA_API_SECRET_ENV = "SPRING_KAFKA_API_SECRET";
+    public static String SPRING_KAFKA_APPLICATION_ID_ENV = "SPRING_KAFKA_APPLICATION_ID";
     public static String SPRING_KAFKA_BOOTSTRAP_SERVERS_ENV = "SPRING_KAFKA_BOOTSTRAP_SERVERS";
+    public static String SPRING_KAFKA_SCHEMA_PASS_ENV = "SPRING_KAFKA_SCHEMA_REGISTRY_PASS";
     public static String SPRING_KAFKA_SCHEMA_REGISTRY_URL_ENV = "SPRING_KAFKA_SCHEMA_REGISTRY_URL";
     public static String SPRING_KAFKA_SCHEMA_USER_ENV = "SPRING_KAFKA_SCHEMA_REGISTRY_USER";
-    public static String SPRING_KAFKA_SCHEMA_PASS_ENV = "SPRING_KAFKA_SCHEMA_REGISTRY_PASS";
     public static String SPRING_KAFKA_SECURITY_PROTOCOL_ENV = "SPRING_KAFKA_SECURITY_PROTOCOL";
 
     @Autowired
@@ -44,7 +45,7 @@ public class Config {
             throw new MissingVarException(kafkaEnvConfig.getNullVar());
         }
 
-        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "StreamProcessingApplication");
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, kafkaEnvConfig.getApplicationId());
  
         props.put(StreamsConfig.SECURITY_PROTOCOL_CONFIG, kafkaEnvConfig.getSecurityProtocol());
 
@@ -89,6 +90,7 @@ public class Config {
     @Bean
     public KafkaEnv kafkaEnvConfig() {
         var config = KafkaEnv.builder()
+            .applicationId(environment.getProperty(SPRING_KAFKA_APPLICATION_ID_ENV))
             .apiKey(environment.getProperty(SPRING_KAFKA_API_KEY_ENV))
             .apiSecret(environment.getProperty(SPRING_KAFKA_API_SECRET_ENV))
             .bootstrapServers(environment.getProperty(SPRING_KAFKA_BOOTSTRAP_SERVERS_ENV))

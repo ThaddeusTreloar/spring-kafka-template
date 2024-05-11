@@ -9,10 +9,11 @@ import lombok.Setter;
 public class KafkaEnv {
     private String apiKey;
     private String apiSecret;
+    private String applicationId;
     private String bootstrapServers;
+    private String schemaRegistryPass;
     private String schemaRegistryUrl;
     private String schemaRegistryUser;
-    private String schemaRegistryPass;
     private String securityProtocol;
 
     public boolean isNull() {
@@ -26,6 +27,7 @@ public class KafkaEnv {
 
         return (is_ssl_security && ssl_params_missing)
             | this.getBootstrapServers() == null
+            | this.getApplicationId() == null
             | this.getSchemaRegistryUrl() == null
             | this.getSchemaRegistryUser() == null
             | this.getSchemaRegistryPass() == null;
@@ -47,6 +49,8 @@ public class KafkaEnv {
 
         if (this.getBootstrapServers() == null) {
             return "SPRING_KAFKA_BOOTSTRAP_SERVERS";
+        } else if (this.getApplicationId() == null) {
+            return "SPRING_KAFKA_APPLICATION_ID";
         } else if (this.getSchemaRegistryUrl() == null) {
             return "SPRING_KAFKA_SCHEMA_REGISTRY_URL";
         } else if (this.getSchemaRegistryUser() == null) {
